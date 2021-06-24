@@ -35,7 +35,7 @@ public class LoraConstants {
     /**
      * Save the current cfg
      */
-    public final static String AT_SAVE = "AT+SAVE";
+    public final static String AT_SAVE = "AT+SAVE\r\n";
 
     /**
      * Need length of byte in int
@@ -43,9 +43,9 @@ public class LoraConstants {
     public final static String AT_SEND = "AT+SEND=";
 
     //DEFAULT AT COMMANDS
-    public static String defaultCfg = "433000000,20,6,10,1,1,0,0,0,3000,8,4,10";
-    public static String defaultAddr = "0001";
-    public static String defaultDest = "FFFF";
+    public static String defaultCfg = "433000000,20,6,10,1,1,0,0,0,3000,8,4,10\r\n";
+    public static String defaultAddr = "0001\r\n";
+    public static String defaultDest = "FFFF\r\n";
 
     public final static String AT_CFG_DEFAULT = AT_CFG + defaultCfg;
     public final static String AT_ADDR_DEFAULT = AT_ADDR + defaultAddr;

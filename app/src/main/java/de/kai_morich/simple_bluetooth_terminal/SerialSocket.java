@@ -82,7 +82,6 @@ class SerialSocket implements Runnable {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     void write(byte[] data) throws IOException {
         if (!connected)
             throw new IOException("not connected");
