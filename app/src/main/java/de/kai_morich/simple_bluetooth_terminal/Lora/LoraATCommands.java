@@ -35,10 +35,10 @@ public class LoraATCommands implements ILoraATCommands {
                 this.list = new ArrayList<>();
                 list.add(LoraConstants.AT.getBytes());
                 list.add(LoraConstants.AT_RX.getBytes());
-                //list.add(LoraConstants.AT_CFG_DEFAULT.getBytes());
-                //list.add(LoraConstants.AT_ADDR_DEFAULT.getBytes());
-                //list.add(LoraConstants.AT_DEST_DEFAULT.getBytes());
-                //list.add(LoraConstants.AT_SAVE.getBytes());
+                list.add(LoraConstants.AT_CFG_DEFAULT.getBytes());
+                list.add(LoraConstants.AT_ADDR_DEFAULT.getBytes());
+                list.add(LoraConstants.AT_DEST_DEFAULT.getBytes());
+                list.add(LoraConstants.AT_SAVE.getBytes());
 
                 isSetup = true;
                 break;
