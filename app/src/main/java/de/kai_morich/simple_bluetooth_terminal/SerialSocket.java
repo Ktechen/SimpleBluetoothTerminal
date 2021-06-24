@@ -7,14 +7,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
+import de.kai_morich.simple_bluetooth_terminal.Lora.LoraATCommands;
 import de.kai_morich.simple_bluetooth_terminal.Lora.LoraConstants;
 
 class SerialSocket implements Runnable {
@@ -29,6 +34,8 @@ class SerialSocket implements Runnable {
     private BluetoothSocket socket;
     private boolean connected;
 
+    private final LoraATCommands loraATCommands;
+
     SerialSocket(Context context, BluetoothDevice device) {
         if (context instanceof Activity)
             throw new InvalidParameterException("expected non UI context");
@@ -42,6 +49,8 @@ class SerialSocket implements Runnable {
                 disconnect(); // disconnect now, else would be queued until UI re-attached
             }
         };
+
+        this.loraATCommands = new LoraATCommands();
     }
 
     String getName() {
@@ -73,20 +82,45 @@ class SerialSocket implements Runnable {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void write(byte[] data) throws IOException {
         if (!connected)
             throw new IOException("not connected");
-        Log.d("data", "write: " + new String(data));
 
-        LoraConstants.LoraOn = true;
-        if(LoraConstants.LoraOn){
-            String msg = "AT+SEND=" + data.length;
-            byte[] at = msg.getBytes();
-            socket.getOutputStream().write(at);
+        String analyseData = new String(data);
+        Log.d("data", "write: " + analyseData);
+
+        try {
+            Log.i("lora", "data:" + analyseData);
+            loraATCommands.run(analyseData.toUpperCase());
+
+            if (LoraConstants.isLora) {
+                if (!LoraConstants.SKIP) {
+                    String msg = "AT+SEND=" + data.length;
+                    byte[] at = msg.getBytes();
+                    socket.getOutputStream().write(at);
+                    socket.getOutputStream().write(data);
+                }
+                LoraConstants.SKIP = false;
+            }
+
+            if (loraATCommands.getList() != null) {
+                for (byte[] item : loraATCommands.getList()) {
+                    socket.getOutputStream().write(item);
+                }
+                loraATCommands.setList(null);
+            }
+
+        } catch (IllegalArgumentException e) {
+            socket.getOutputStream().write(e.getMessage().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (loraATCommands.getList() == null) {
             socket.getOutputStream().write(data);
         }
 
-        socket.getOutputStream().write(data);
     }
 
     @Override

@@ -2,12 +2,20 @@ package de.kai_morich.simple_bluetooth_terminal.Lora;
 
 public class LoraConstants {
 
-    public static boolean LoraOn = false;
+    public static boolean isLora = false;
+
+    //Lora Commands
+
+    public final static String onLora = "ONLORA";
+    public final static String offLora = "OFFLORA";
+    public final static String SETUP = "SETUP";
+
 
     //AT Comamnds
+    public static boolean SKIP = false;
 
-    public final static String AT = "AT";
-    public final static String AT_RX = "AT+RX";
+    public final static String AT = "AT\r\n";
+    public final static String AT_RX = "AT+RX\r\n";
 
     /**
      * Need a addr like 0001
@@ -35,10 +43,12 @@ public class LoraConstants {
     public final static String AT_SEND = "AT+SEND=";
 
     //DEFAULT AT COMMANDS
-    public final static String DEFAULT_CFG = "433000000,20,6,10,1,1,0,0,0,3000,8,4,10";
-    public final static String DEFAULT_DEST = "FFFF";
+    public static String defaultCfg = "433000000,20,6,10,1,1,0,0,0,3000,8,4,10";
+    public static String defaultAddr = "0001";
+    public static String defaultDest = "FFFF";
 
-    public final static String AT_CFG_DEFAULT = AT_CFG + DEFAULT_CFG;
-    public final static String AT_DEST_DEFAULT = AT_DEST + DEFAULT_CFG;
+    public final static String AT_CFG_DEFAULT = AT_CFG + defaultCfg;
+    public final static String AT_ADDR_DEFAULT = AT_ADDR + defaultAddr;
+    public final static String AT_DEST_DEFAULT = AT_DEST + defaultCfg;
 
 }
