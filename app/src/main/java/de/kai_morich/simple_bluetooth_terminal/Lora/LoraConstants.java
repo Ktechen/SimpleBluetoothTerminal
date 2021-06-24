@@ -10,7 +10,6 @@ public class LoraConstants {
     public final static String offLora = "OFFLORA";
     public final static String SETUP = "SETUP";
 
-
     //AT Comamnds
     public static boolean SKIP = false;
 

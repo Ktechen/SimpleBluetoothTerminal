@@ -9,7 +9,7 @@ public class LoraATCommands implements ILoraATCommands {
     private ArrayList<byte[]> list = null;
 
     @Override
-    public void run(String command) throws Exception {
+    public void run(String command) {
 
         command = command.replaceAll("[\\n\\r ]", "");
         boolean isSetup = false;
@@ -19,17 +19,23 @@ public class LoraATCommands implements ILoraATCommands {
                 LoraConstants.isLora = true;
                 LoraConstants.SKIP = true;
                 break;
+
             case LoraConstants.offLora:
                 LoraConstants.isLora = false;
                 LoraConstants.SKIP = true;
                 break;
+
             case LoraConstants.AT:
                 LoraConstants.SKIP = true;
                 break;
+
+            /**
+             * Add Default Setup with Dest FFFF and ADDR 0001
+             */
             case LoraConstants.SETUP:
 
                 if (LoraConstants.isLora) {
-                    throw new IllegalArgumentException("Lora must be off before we can start with configuration");
+                    return;
                 }
 
                 this.list = new ArrayList<>();

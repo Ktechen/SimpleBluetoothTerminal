@@ -6,6 +6,6 @@ public interface ILoraATCommands {
     /**
      * Get Commands
      */
-    void run(String command) throws Exception;
+    void run(String command);
 
 }
