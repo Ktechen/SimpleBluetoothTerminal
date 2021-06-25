@@ -154,24 +154,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         atoff.setOnClickListener(v -> send(LoraConstants.offLora));
 
         View setup = view.findViewById(R.id.AT_Setup_button);
-        setup.setOnClickListener(v -> {
-            ArrayList<String> list = new ArrayList<>();
-            list.add(LoraConstants.AT);
-            list.add(LoraConstants.AT_RX);
-            list.add(LoraConstants.AT_CFG_DEFAULT);
-            list.add(LoraConstants.AT_ADDR_DEFAULT);
-            list.add(LoraConstants.AT_DEST_DEFAULT);
-            list.add(LoraConstants.AT_SAVE);
-
-            for (String item : list) {
-                send(item);
-                try {
-                    wait(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        setup.setOnClickListener(v -> send(LoraConstants.SETUP));
 
         View sendBtn = view.findViewById(R.id.send_btn);
         sendBtn.setOnClickListener(v -> send(sendText.getText().toString()));

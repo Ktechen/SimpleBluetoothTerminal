@@ -48,6 +48,7 @@ public class LoraATCommands implements ILoraATCommands {
 
                 isSetup = true;
                 break;
+                /*
             case LoraConstants.HELP:
 
                 if (LoraConstants.isLora) {
@@ -60,7 +61,7 @@ public class LoraATCommands implements ILoraATCommands {
                 list.add("setup run alle AT mit default cfg \r\n".getBytes());
 
                 break;
-
+                */
 
         }
 

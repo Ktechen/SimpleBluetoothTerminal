@@ -3,7 +3,7 @@ package de.kai_morich.simple_bluetooth_terminal.Lora;
 public class LoraConstants {
 
     public static boolean isLora = false;
-
+    public static boolean SKIP = false;
     //Lora Commands
 
     public final static String onLora = "ONLORA";
@@ -12,7 +12,7 @@ public class LoraConstants {
     public final static String HELP = "HELP";
 
     //AT Comamnds
-    public static boolean SKIP = false;
+
 
     public final static String AT = "AT\r\n";
     public final static String AT_RX = "AT+RX\r\n";

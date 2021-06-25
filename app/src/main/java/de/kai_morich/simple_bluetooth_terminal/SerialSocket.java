@@ -90,7 +90,6 @@ class SerialSocket implements Runnable {
     void writeLora(byte[] data, String analyseData) throws IOException {
         Log.d("data", "write: " + analyseData);
 
-
         Log.i("lora", "data:" + analyseData);
         loraATCommands.run(analyseData.toUpperCase());
 
