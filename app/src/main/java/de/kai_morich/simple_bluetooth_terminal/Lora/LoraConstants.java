@@ -9,6 +9,7 @@ public class LoraConstants {
     public final static String onLora = "ONLORA";
     public final static String offLora = "OFFLORA";
     public final static String SETUP = "SETUP";
+    public final static String HELP = "HELP";
 
     //AT Comamnds
     public static boolean SKIP = false;
@@ -48,6 +49,6 @@ public class LoraConstants {
 
     public final static String AT_CFG_DEFAULT = AT_CFG + defaultCfg;
     public final static String AT_ADDR_DEFAULT = AT_ADDR + defaultAddr;
-    public final static String AT_DEST_DEFAULT = AT_DEST + defaultCfg;
+    public final static String AT_DEST_DEFAULT = AT_DEST + defaultDest;
 
 }

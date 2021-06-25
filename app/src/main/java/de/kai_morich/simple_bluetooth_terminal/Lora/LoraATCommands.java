@@ -48,6 +48,19 @@ public class LoraATCommands implements ILoraATCommands {
 
                 isSetup = true;
                 break;
+            case LoraConstants.HELP:
+
+                if (LoraConstants.isLora) {
+                    return;
+                }
+
+                this.list = new ArrayList<>();
+                list.add("onlora aktiviert Lora ATSEND automatisch \r\n".getBytes());
+                list.add("offlora deaktiviert Lora \r\n".getBytes());
+                list.add("setup run alle AT mit default cfg \r\n".getBytes());
+
+                break;
+
 
         }
 

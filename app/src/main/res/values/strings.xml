@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Simple Bluetooth Terminal</string>
     <string name="devices">Bluetooth Devices</string>
+    <string name="button">Button</string>
+    <string name="AT">AT</string>
+    <string name="todo">TODO</string>
+    <string name="setup">Setup</string>
 </resources>

@@ -22,12 +22,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.concurrent.Delayed;
+
+import de.kai_morich.simple_bluetooth_terminal.Lora.LoraConstants;
 
 public class TerminalFragment extends Fragment implements ServiceConnection, SerialListener {
 
@@ -138,8 +144,38 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         sendText.addTextChangedListener(hexWatcher);
         sendText.setHint(hexEnabled ? "HEX mode" : "");
 
+        View atbtn = view.findViewById(R.id.AT_button);
+        atbtn.setOnClickListener(v -> send(LoraConstants.AT));
+
+        View aton = view.findViewById(R.id.AT_ON_button);
+        aton.setOnClickListener(v -> send(LoraConstants.onLora));
+
+        View atoff = view.findViewById(R.id.AT_OFF_button);
+        atoff.setOnClickListener(v -> send(LoraConstants.offLora));
+
+        View setup = view.findViewById(R.id.AT_Setup_button);
+        setup.setOnClickListener(v -> {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(LoraConstants.AT);
+            list.add(LoraConstants.AT_RX);
+            list.add(LoraConstants.AT_CFG_DEFAULT);
+            list.add(LoraConstants.AT_ADDR_DEFAULT);
+            list.add(LoraConstants.AT_DEST_DEFAULT);
+            list.add(LoraConstants.AT_SAVE);
+
+            for (String item : list) {
+                send(item);
+                try {
+                    wait(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         View sendBtn = view.findViewById(R.id.send_btn);
         sendBtn.setOnClickListener(v -> send(sendText.getText().toString()));
+
         return view;
     }
 

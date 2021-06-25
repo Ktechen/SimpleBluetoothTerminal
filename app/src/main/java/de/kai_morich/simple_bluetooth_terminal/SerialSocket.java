@@ -83,7 +83,7 @@ class SerialSocket implements Runnable {
             throw new IOException("not connected");
 
         writeLora(data, new String(data));
-
+        
         socket.getOutputStream().write(data);
     }
 
