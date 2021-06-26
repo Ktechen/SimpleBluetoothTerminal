@@ -193,6 +193,15 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             sendText.setHint(hexEnabled ? "HEX mode" : "");
             item.setChecked(hexEnabled);
             return true;
+        } else if (id == R.id.AT_Commands) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("AT-Commands");
+            builder.setItems(LoraConstants.items, (dialogInterface, i) -> {
+                sendText.setText(LoraConstants.items[i]);
+            });
+
+            builder.create().show();
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }

@@ -2,6 +2,15 @@ package de.kai_morich.simple_bluetooth_terminal.Lora;
 
 public class LoraConstants {
 
+    public static CharSequence[] items = new CharSequence[]{
+            LoraConstants.AT,
+            LoraConstants.AT_ADDR_DEFAULT,
+            LoraConstants.AT_CFG_DEFAULT,
+            LoraConstants.AT_DEST_DEFAULT,
+            LoraConstants.AT_SAVE,
+            LoraConstants.AT_SEND
+    };
+
     public static boolean isLora = false;
     public static boolean SKIP = false;
     //Lora Commands

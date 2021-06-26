@@ -29,7 +29,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="73dp"
             android:onClick="onclickAT"
-            android:text="@string/AT"
+            android:text="AT"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -75,8 +75,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="?android:attr/listDivider"
-        android:layout_height="2dp" />
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider" />
 
     <LinearLayout
         android:layout_width="match_parent"

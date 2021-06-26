@@ -83,7 +83,7 @@ class SerialSocket implements Runnable {
             throw new IOException("not connected");
 
         writeLora(data, new String(data));
-        
+
         socket.getOutputStream().write(data);
     }
 
@@ -95,7 +95,7 @@ class SerialSocket implements Runnable {
 
         if (LoraConstants.isLora) {
             if (!LoraConstants.SKIP) {
-                String msg = "AT+SEND=" + data.length;
+                String msg = LoraConstants.AT_SEND + data.length;
                 byte[] at = msg.getBytes();
                 socket.getOutputStream().write(at);
                 socket.getOutputStream().write(data);

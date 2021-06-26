@@ -5,14 +5,18 @@
         android:id="@+id/clear"
         android:icon="@drawable/ic_delete_white_24dp"
         android:title="Clear"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/newline"
-        android:title="Newline"
+        android:title="newline"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/AT_Commands"
+        android:title="at_commands"
         app:showAsAction="never" />
     <item
         android:id="@+id/hex"
-        android:title="HEX Mode"
         android:checkable="true"
+        android:title="hex_mode"
         app:showAsAction="never" />
 </menu>
