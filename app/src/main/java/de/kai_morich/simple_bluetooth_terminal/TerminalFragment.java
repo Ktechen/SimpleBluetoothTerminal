@@ -305,7 +305,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             String msgMessageID;
             ////////////////////
             //Handelt es sich um eine Nachricht mit data Overhead?
-            if(msg.substring(0,4).equals(BTConstants.ESP_TAG)){
+            if((msg.length() >=4) && (msg.substring(0,4).equals(BTConstants.ESP_TAG))){
                 msg = msg.substring(4);//ESP: TAG abschneiden
                 msgSenderID = msg.substring(0,8);
                 msg = msg.substring(8);
