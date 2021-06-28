@@ -11,10 +11,14 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
+import de.kai_morich.simple_bluetooth_terminal.BT.BTConstants;
+import de.kai_morich.simple_bluetooth_terminal.BT.MessageData;
 import de.kai_morich.simple_bluetooth_terminal.Lora.LoraATCommands;
 import de.kai_morich.simple_bluetooth_terminal.Lora.LoraConstants;
 
@@ -81,6 +85,23 @@ class SerialSocket implements Runnable {
     void write(byte[] data) throws IOException {
         if (!connected)
             throw new IOException("not connected");
+
+        //Es soll eine Nachricht an einen Esp mit einem Informationsoverhead verschickt werden
+        if(BTConstants.getIsESP()){
+            MessageData.setInhalt(new String(data));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            String zeit = sdf.format(new Date());
+            MessageData.setZeit(zeit);
+
+            MessageData.setMessageID();
+
+            byte[] messageWithOverhead =  (BTConstants.ESP_TAG + MessageData.dataToString()).getBytes();
+
+            socket.getOutputStream().write(messageWithOverhead);
+
+            return;
+        }
 
         writeLora(data);
 

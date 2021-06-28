@@ -33,6 +33,8 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.concurrent.Delayed;
 
+import de.kai_morich.simple_bluetooth_terminal.BT.BTConstants;
+import de.kai_morich.simple_bluetooth_terminal.BT.MessageData;
 import de.kai_morich.simple_bluetooth_terminal.Lora.LoraConstants;
 
 public class TerminalFragment extends Fragment implements ServiceConnection, SerialListener {
@@ -157,7 +159,46 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         setup.setOnClickListener(v -> send(LoraConstants.SETUP));
 
         View sendBtn = view.findViewById(R.id.send_btn);
-        sendBtn.setOnClickListener(v -> send(sendText.getText().toString()));
+        sendBtn.setOnClickListener(v -> {
+
+            String str = sendText.getText().toString();
+            //turn on Esp mode for additional information
+            if (str.toUpperCase().equals(BTConstants.ESP_MODE_ON)) {
+                BTConstants.setIsESP(true);
+                sendText.setText("");
+                receiveText.setText(receiveText.getText() + "Your messages now have a data overhead for ESP\r\n");
+                return;
+            }
+
+            //turn off Esp mode for less information
+            if (str.toUpperCase().equals(BTConstants.ESP_MODE_OFF)) {
+                BTConstants.setIsESP(false);
+                sendText.setText("");
+                receiveText.setText(receiveText.getText() + "Your messages no longer have a data overhead for ESP\r\n");
+                return;
+            }
+
+            //change devices name in additional information for esp mode
+            if (str.toUpperCase().contains(BTConstants.ESP_SENDER_NAME)) {
+                String neuerSenderName;
+                if(str.contains(BTConstants.ESP_SENDER_NAME.toLowerCase())) neuerSenderName = str.replace(BTConstants.ESP_SENDER_NAME.toLowerCase(), "");
+                else neuerSenderName = str.replace(BTConstants.ESP_SENDER_NAME, "");
+                neuerSenderName.replace("\r\n", "");
+                MessageData.setSenderName(neuerSenderName);
+                sendText.setText("");
+                receiveText.setText(receiveText.getText() + "Your devices name has been changed to: [" + MessageData.getSenderName() + "]\r\n");
+
+                return;
+            }
+            if(str.toUpperCase().equals(BTConstants.ESP_SENDER_ID)){
+                BTConstants.setSenderID();
+                sendText.setText("");
+                receiveText.setText(receiveText.getText() + "Deine SenderID wurde geändert\r\n");
+                return;
+            }
+
+            send(sendText.getText().toString());
+        });
 
         return view;
     }
@@ -260,6 +301,44 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             receiveText.append(TextUtil.toHexString(data) + '\n');
         } else {
             String msg = new String(data);
+            String msgSenderID;
+            String msgMessageID;
+            ////////////////////
+            //Handelt es sich um eine Nachricht mit data Overhead?
+            if(msg.substring(0,4).equals(BTConstants.ESP_TAG)){
+                msg = msg.substring(4);//ESP: TAG abschneiden
+                msgSenderID = msg.substring(0,8);
+                msg = msg.substring(8);
+                msgMessageID = msg.substring(0,8);
+                msg = msg.substring(8); //msg ohne sender oder messageID
+
+                //Handelt es sich um eine Nachricht von diesem Device?
+                //Wenn dieser Sender die Nachricht verschickt hat, wird die Nachricht zu einer Bestätigung des Empfangs durch den ESP
+
+                if(msgSenderID.equals(BTConstants.getSenderID())) {
+                    //wenn die gesendete Nachricht schon einmal bestätigt wurde gib nichts aus
+                    if(MessageData.IDversendet(msgMessageID))msg = "";
+                        //wenn die gesendete Nachricht das erste mal bestätigt wird gib Bestätigung aus
+                    else{
+                        msg = "ESP hat deine Nachricht empfangen\r\n";
+                        MessageData.addSentMessageID(msgMessageID);
+                    }
+                }
+                //Bei der Nachricht einen anderen Senders wird die Sender-ID(8 zeichen) entfernt um nur senderName,zeit und inhalt auszugegeben
+                else {
+                    //receiveText.setText("NEUE NACHRICHT HERE\r\n");
+
+                    //wurde diese Nachricht schonmal erhalten?, dann soll sie nicht wieder angezeigt werden
+                    if(MessageData.foreignMessageIDknown(msgMessageID)){
+                        msg = "";
+                    }
+                    else{
+                        MessageData.addForeignMessageID(msgMessageID);
+                        msg += "\r\n";
+                    }
+                }
+            }
+            ///////////////////
             if (newline.equals(TextUtil.newline_crlf) && msg.length() > 0) {
                 // don't show CR as ^M if directly before LF
                 msg = msg.replace(TextUtil.newline_crlf, TextUtil.newline_lf);
