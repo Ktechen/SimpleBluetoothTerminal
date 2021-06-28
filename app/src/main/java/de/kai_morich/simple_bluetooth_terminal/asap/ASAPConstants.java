@@ -7,6 +7,8 @@ public class ASAPConstants {
      * APP
      * URL
      * byte[] messages
+     * boolean persistent
+     * https://github.com/SharedKnowledge/ASAPAndroid/blob/master/app/src/main/java/net/sharksystem/asap/android/ASAPServiceMessage.java
      */
 
     public static CharSequence APP = "ASAP_MESSENGER";
