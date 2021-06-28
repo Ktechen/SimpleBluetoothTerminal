@@ -16,3 +16,5 @@ I got various requests asking for help with Android development or source code f
 Here you find a simplified version of my app.
 
 ## Added AT-Commands with Lora Communication
+
+Devices HIMO-01P and ESP32
