@@ -1,9 +1,11 @@
 package de.kai_morich.simple_bluetooth_terminal;
 
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.TextView;
 
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
