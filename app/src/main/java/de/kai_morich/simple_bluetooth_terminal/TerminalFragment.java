@@ -237,8 +237,20 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         } else if (id == R.id.AT_Commands) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("AT-Commands");
-            builder.setItems(LoraConstants.items, (dialogInterface, i) -> {
-                sendText.setText(LoraConstants.items[i]);
+
+
+             final CharSequence[] items = new CharSequence[]{
+                    LoraConstants.AT,
+                    LoraConstants.AT_ADDR_DEFAULT,
+                    LoraConstants.AT_CFG_DEFAULT,
+                    LoraConstants.AT_DEST_DEFAULT,
+                    LoraConstants.AT_SAVE,
+                    LoraConstants.AT_SEND
+            };
+
+            builder.setItems(items, (dialogInterface, i) -> {
+                sendText.setText(items[i]);
+                Log.d(getClass().toString(), items[i].toString());
             });
 
             builder.create().show();

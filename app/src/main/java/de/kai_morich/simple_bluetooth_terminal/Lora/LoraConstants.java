@@ -2,7 +2,7 @@ package de.kai_morich.simple_bluetooth_terminal.Lora;
 
 public class LoraConstants {
 
-    public static CharSequence[] items = new CharSequence[]{
+    public final static CharSequence[] items = new CharSequence[]{
             LoraConstants.AT,
             LoraConstants.AT_ADDR_DEFAULT,
             LoraConstants.AT_CFG_DEFAULT,
